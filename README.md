@@ -37,7 +37,8 @@ Other valuable commands:
 - `make ssh` - connect to the container
 - `make logs` - view logs of the container
 
-Please notice that Alpine PHP image was used for the decreasing size of the image
+Please review `Makefile` for all available CLI commands.
+Please notice that Alpine PHP image was used for the decreasing size of the image.
 
 ## Running the tests
 
