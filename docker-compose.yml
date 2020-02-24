@@ -1,0 +1,46 @@
+version: "3"
+networks:
+  salto:
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html:cached
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:cached
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - salto
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "33061:3306"
+    environment:
+      MYSQL_DATABASE: salto
+      MYSQL_USER: salto
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - ./mysql-data:/var/lib/mysql:cached
+    networks:
+      - salto
+
+  php:
+    build:
+      context: .
+    container_name: php
+    volumes:
+      - ./src:/var/www/html:cached
+    ports:
+      - "9000:9000"
+    networks:
+      - salto
+
