@@ -1,10 +1,11 @@
 version: "3"
 networks:
   salto:
+
 services:
   nginx:
     image: nginx:stable-alpine
-    container_name: nginx
+    container_name: nginx_salto
     ports:
       - "8080:80"
     volumes:
@@ -18,7 +19,7 @@ services:
 
   mysql:
     image: mysql:5.7
-    container_name: mysql
+    container_name: mysql_salto
     restart: unless-stopped
     tty: true
     ports:
@@ -36,7 +37,7 @@ services:
   php:
     build:
       context: .
-    container_name: php
+    container_name: php_salto
     volumes:
       - ./src:/var/www/html:cached
     ports:

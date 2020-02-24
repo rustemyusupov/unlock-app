@@ -1,7 +1,7 @@
 dir=${CURDIR}
 
 build:
-	@docker build -t php .
+	@docker build -t php_salto .
 
 start:
 	@docker-compose up -d
@@ -10,20 +10,22 @@ stop:
 
 restart: stop start
 
+install-project: build start composer-install env fresh install-passport
+
 env:
-	cp ./.env.local ./.env
+	cp ./src/.env.example ./src/.env
 
 ssh:
-	@docker-compose exec php sh
+	@docker-compose exec php_salto sh
 
 logs:
-	@docker-compose logs --tail=100 -f php
+	@docker-compose logs --tail=100 -f php_salto
 
 exec:
-	@docker run -t -v $(dir)/src:/var/www/html php $$cmd
+	@docker run -t -v $(dir)/src:/var/www/html php_salto $$cmd
 
 exec-db:
-	@docker run -t -v $(dir)/src:/var/www/html --network salto_salto --link mysql php $$cmd
+	@docker run -t -v $(dir)/src:/var/www/html --network $(shell basename $(dir))_salto --link mysql_salto php_salto $$cmd
 
 composer-install:
 	@make exec cmd="composer install"
@@ -39,6 +41,9 @@ seed:
 
 fresh:
 	@make exec-db cmd="php artisan migrate:fresh --seed"
+
+install-passport:
+	@make exec-db cmd="php artisan passport:install"
 
 phpunit:
 	@make exec-db cmd="vendor/bin/phpunit"

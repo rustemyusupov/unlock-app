@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Events\UnlockEvent;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\UnauthorizedException;
 use Laravel\Passport\Passport;
 use Spatie\Activitylog\Models\Activity;
 
@@ -27,7 +27,7 @@ class LockController extends Controller
     public function unlock(Request $request, string $scope): JsonResponse
     {
         if (!$request->user()->tokenCan($scope)) {
-            throw new UnauthorizedException();
+            throw new AuthorizationException();
         }
 
         /**

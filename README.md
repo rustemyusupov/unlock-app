@@ -28,7 +28,7 @@ For the simplifying CLI commands `make` command will be used.
 
 For the building project please run:
 ```
-make build start composer-install
+make install-project
 ```
 
 Other valuable commands:
@@ -37,6 +37,7 @@ Other valuable commands:
 - `make ssh` - connect to the container
 - `make logs` - view logs of the container
 
+Please notice that Alpine PHP image was used for the decreasing size of the image
 
 ## Running the tests
 
@@ -66,6 +67,7 @@ When contributing to this repository, please first discuss the change you wish t
 Also, please review the list of main ideas and patterns which were used during the project development.
  
 ## Roadmap
+- Implement API documentation
 - Improve tests coverage
 - Integrate `real` unlock functionality
 - Set up CD/CI
